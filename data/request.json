@@ -1,0 +1,11 @@
+{
+    "endpoint_counters": [
+        {
+            "ip": "10.1.1.1",  
+            "counter": "cpu.a"   
+        }
+    ],
+    "start": 1562290000,        
+    "end": 1562294400,         
+    "cf": "AVERAGE"
+}
