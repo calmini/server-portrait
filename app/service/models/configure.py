@@ -27,7 +27,6 @@ class MetricDetail(BaseModel):
             pass
 
         return counter
-        
 
 class ServerConfigure(BaseModel):
     field: str = Field(default="")

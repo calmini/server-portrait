@@ -18,7 +18,7 @@ class TraceIdMiddleware(BaseHTTPMiddleware):
         # 添加traceid
         currentTime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         request_id = StringUtil.GenerateMd5(currentTime)
-        reqJson = await request.json()
+        # reqJson = await request.json()
         # print(f"调用-TraceId生成-TraceLogMiddleware--before-{reqJson} - {request_id}")
         traceId.set(request_id)
         result = await call_next(request)
