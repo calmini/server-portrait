@@ -21,7 +21,8 @@ class HbaseQueryImpl(QueryInterface):
         
 
     async def query_one(self, reqTemplate: HbaseTemplate):
-        with self._semphore:
+        # 如果超出控制的并发量, 会阻塞在这里, 从而降低对服务端的影响
+        async with self._semphore:
             session = await self._executor.get_session()
             with session.post(globalAppConfigure.baseHbaseURL, json = reqTemplate.model_dump()) as job:
                 reqJson = await job.json()
