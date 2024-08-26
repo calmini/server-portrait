@@ -31,29 +31,15 @@ class RemoteIOExecutor:
     async def get_session(self):
         # 单线程模型不需要加锁
         if self._session is None:
+            # 初始化session的过程必须在事件循环中
             await self.init_http()
 
         return self._session
 
     async def get_redis(self):
+        if self._redisClient is None:
+            await self.init_redis()
         return self._redisClient
-
-    # async def query_baidu(self):
-    #     # 初始化session的过程必须在事件循环中. 也不完全是, 
-    #     session = await self.get_session()
-    #     async with self.semphore: # 单线程模型不需要担心会取到None
-    #         # 如果超出控制的并发量, 会阻塞在这里, 从而降低对服务端的影响
-    #         async with session.get("http://www.baidu.com") as req:
-    #             content = await req.text()
-    #             return content
-    
-    # TODO 待处理
-    # async def queryHbase(self, json: dict):
-    #     session = await self.get_session()
-    #     async with self.semphore:
-    #         async with session.post(globalAppConfigure.baseHbaseURL, json=json) as req:
-    #             retjson = await req.json()
-    #             return retjson
 
     async def close(self):
         if self._session is not None:
